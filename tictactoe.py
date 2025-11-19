@@ -1,5 +1,3 @@
-# Tic Tac Toe Console Version
-# X starts first
 def print_board(board):
     for i in range(3):
         print(" | ".join(board[i]))
@@ -8,7 +6,6 @@ def print_board(board):
     print()
 
 def check_win(board, player):
-    # rows, cols, diagonals
     for i in range(3):
         if all(board[i][j]==player for j in range(3)):
             return True
