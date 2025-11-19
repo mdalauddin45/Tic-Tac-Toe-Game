@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .cell {
+            transition: all 0.2s;
+        }
+        .cell:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Tic Tac Toe</h1>
+        
+        <div class="flex justify-between items-center mb-4 px-4">
+            <div id="status" class="text-xl font-semibold text-gray-700">X's Turn</div>
+            <button onclick="resetGame()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition text-sm">Restart</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 bg-gray-300 p-2 rounded-lg mb-6">
+            <div onclick="handleClick(0)" id="cell-0" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <div onclick="handleClick(1)" id="cell-1" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <div onclick="handleClick(2)" id="cell-2" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            
+            <div onclick="handleClick(3)" id="cell-3" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <div onclick="handleClick(4)" id="cell-4" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <div onclick="handleClick(5)" id="cell-5" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            
+            <div onclick="handleClick(6)" id="cell-6" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <div onclick="handleClick(7)" id="cell-7" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <div onclick="handleClick(8)" id="cell-8" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+        </div>
+
+        <div id="winner-message" class="hidden p-4 bg-green-100 text-green-800 rounded-lg border border-green-200">
+            <span id="winner-text" class="font-bold text-lg"></span>
+        </div>
+    </div>
+
+    <script>
+        let xState = [0,0,0,0,0,0,0,0,0];
+        let oState = [0,0,0,0,0,0,0,0,0];
+        let turn = 1; // 1 => X, 0 => O
+        let gameOver = false;
+
+        const wins = [
+            [0,1,2],[3,4,5],[6,7,8],
+            [0,3,6],[1,4,7],[2,5,8],
+            [0,4,8],[2,4,6]
+        ];
+
+        function handleClick(index) {
+            if (gameOver) return;
+            if (xState[index] || oState[index]) return;
+
+            const cell = document.getElementById(`cell-${index}`);
+
+            if (turn === 1) {
+                xState[index] = 1;
+                cell.innerText = "X";
+                cell.classList.add("text-blue-600");
+                document.getElementById("status").innerText = "O's Turn";
+                turn = 0;
+            } else {
+                oState[index] = 1;
+                cell.innerText = "O";
+                cell.classList.add("text-red-600");
+                document.getElementById("status").innerText = "X's Turn";
+                turn = 1;
+            }
+
+            checkWin();
+        }
+
+        function checkWin() {
+            let winner = null;
+
+            for (let w of wins) {
+                if (xState[w[0]] + xState[w[1]] + xState[w[2]] === 3) {
+                    winner = "X";
+                    break;
+                }
+            }
+            if (!winner) {
+                for (let w of wins) {
+                    if (oState[w[0]] + oState[w[1]] + oState[w[2]] === 3) {
+                        winner = "O";
+                        break;
+                    }
+                }
+            }
+
+            if (winner) {
+                endGame(`${winner} Won!`);
+                return;
+            }
+
+            let totalMoves = xState.reduce((a,b)=>a+b,0) + oState.reduce((a,b)=>a+b,0);
+            if (totalMoves === 9) endGame("Draw!");
+        }
+
+        function endGame(message) {
+            gameOver = true;
+            document.getElementById("status").innerText = "Game Over";
+            document.getElementById("winner-text").innerText = message;
+            document.getElementById("winner-message").classList.remove("hidden");
+        }
+
+        function resetGame() {
+            xState = Array(9).fill(0);
+            oState = Array(9).fill(0);
+            turn = 1;
+            gameOver = false;
+            document.getElementById("status").innerText = "X's Turn";
+            document.getElementById("winner-message").classList.add("hidden");
+            for (let i=0;i<9;i++){
+                const cell = document.getElementById(`cell-${i}`);
+                cell.innerText = "";
+                cell.classList.remove("text-blue-600","text-red-600");
+            }
+        }
+    </script>
+
+</body>
+</html>
