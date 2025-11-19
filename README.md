@@ -7,7 +7,8 @@ A classic Tic Tac Toe game implemented in **two versions**:
 ---
 
 ## Table of Contents
-- [Demo](#demo)  
+- [Live Demo](#live-demo)  
+- [Repository](#repository)  
 - [Features](#features)  
 - [Installation](#installation)  
 - [Usage](#usage)  
@@ -16,35 +17,40 @@ A classic Tic Tac Toe game implemented in **two versions**:
 
 ---
 
-## Demo
-- **Web version**: Open `index.html` in any modern browser.  
-- **Console version**: Run `tictactoe.py` in your terminal.
+## Live Demo  
+Play it online: [🎮 Play Tic Tac Toe](https://tictactoeailab.netlify.app/)
+
+## Repository  
+Browse the source code on GitHub: [https://github.com/mdalauddin45/Tic‑Tac‑Toe‑Game](https://github.com/mdalauddin45/Tic-Tac-Toe-Game)
 
 ---
 
 ## Features
 
 ### Web Version
-- Interactive 3x3 Tic Tac Toe grid.  
-- Two-player mode (X vs O).  
+- Interactive 3×3 Tic Tac Toe grid.  
+- Two‑player mode (X vs O).  
 - Restart button to reset the game.  
 - Displays current turn and game result.  
 - Hover effect for better UI feedback.  
-- Mobile and desktop responsive design with Tailwind CSS.
+- Mobile & desktop responsive using Tailwind CSS.
 
 ### Python Console Version
-- Classic console-based 3x3 Tic Tac Toe.  
-- Two-player mode with turn-based input.  
-- Input validation (row/column 1-3).  
+- Classic console‑based 3×3 Tic Tac Toe.  
+- Two‑player mode with turn‑based input.  
+- Input validation (row/column 1‑3).  
 - Win and draw detection.  
-- Easy-to-read ASCII board display.
+- Simple ASCII board display.
 
 ---
 
 ## Installation
 
 ### Web Version
-No installation required.  
-Simply open `index.html` in a browser:
-```bash
-open index.html
+No installation required — open `index.html` in any browser, or just use the [live link](https://tictactoeailab.netlify.app/).
+
+### Python Version
+Requires **Python 3**:
+1. Clone or download the repo:
+   ```bash
+   git clone https://github.com/mdalauddin45/Tic-Tac-Toe-Game
