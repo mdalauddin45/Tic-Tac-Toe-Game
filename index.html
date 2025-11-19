@@ -3,129 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Tic Tac Toe with Game Over Sound</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .cell {
-            transition: all 0.2s;
+        /* 3D Button Styles */
+        .btn-3d {
+            transition: all 0.1s;
+            position: relative;
         }
-        .cell:hover {
-            background-color: #f3f4f6;
+        .btn-3d:active {
+            transform: translateY(4px);
+            border-bottom-width: 0px;
+            margin-top: 4px;
         }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+            50% { transform: scale(1.01); box-shadow: 0 0 25px rgba(0,0,0,0.2); }
+        }
+        .animate-pulse-subtle { animation: pulse 4s ease-in-out infinite; }
+
+        /* Winner Bounce Animation */
+        @keyframes bounce-scale {
+            0%,100%{transform:translateY(0) scale(1);}
+            25%{transform:translateY(-5px) scale(1.02);}
+            50%{transform:translateY(0) scale(1);}
+            75%{transform:translateY(-2px) scale(1.01);}
+        }
+        .animate-bounce-scale { animation: bounce-scale 1.5s ease-in-out infinite; }
+
+        .text-player-x { color: #2563eb; }
+        .text-player-o { color: #dc2626; }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
+<body class="bg-white flex items-center justify-center min-h-screen font-sans">
 
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Tic Tac Toe</h1>
+    <div class="bg-gray-100 p-8 rounded-xl shadow-2xl w-full max-w-md text-center border-4 border-gray-200">
+        <h1 class="text-4xl font-black text-gray-800 mb-8 tracking-wider" style="text-shadow:1px 1px 0 #ccc;">TIC TAC TOE</h1>
         
-        <div class="flex justify-between items-center mb-4 px-4">
-            <div id="status" class="text-xl font-semibold text-gray-700">X's Turn</div>
-            <button onclick="resetGame()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition text-sm">Restart</button>
+        <div class="flex justify-between items-center mb-6 px-2">
+            <div id="status" class="text-xl font-bold text-player-x">X's Turn</div>
+            <button onclick="resetGame()" class="btn-3d bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-6 rounded-lg border-b-4 border-indigo-700 active:border-b-0 active:mt-1 focus:outline-none">
+                RESTART
+            </button>
         </div>
 
-        <div class="grid grid-cols-3 gap-2 bg-gray-300 p-2 rounded-lg mb-6">
-            <div onclick="handleClick(0)" id="cell-0" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
-            <div onclick="handleClick(1)" id="cell-1" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
-            <div onclick="handleClick(2)" id="cell-2" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+        <div class="grid grid-cols-3 gap-4 bg-gray-200 p-4 rounded-xl border-2 border-gray-300 animate-pulse-subtle">
+            <!-- Cells 0-8 -->
+            <button onclick="handleClick(0)" id="cell-0" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
+            <button onclick="handleClick(1)" id="cell-1" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
+            <button onclick="handleClick(2)" id="cell-2" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
             
-            <div onclick="handleClick(3)" id="cell-3" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
-            <div onclick="handleClick(4)" id="cell-4" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
-            <div onclick="handleClick(5)" id="cell-5" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <button onclick="handleClick(3)" id="cell-3" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
+            <button onclick="handleClick(4)" id="cell-4" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
+            <button onclick="handleClick(5)" id="cell-5" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
             
-            <div onclick="handleClick(6)" id="cell-6" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
-            <div onclick="handleClick(7)" id="cell-7" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
-            <div onclick="handleClick(8)" id="cell-8" class="cell bg-white h-24 w-24 flex items-center justify-center text-4xl font-bold cursor-pointer rounded shadow-sm text-gray-800"></div>
+            <button onclick="handleClick(6)" id="cell-6" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
+            <button onclick="handleClick(7)" id="cell-7" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
+            <button onclick="handleClick(8)" id="cell-8" class="btn-3d w-full h-24 bg-white hover:bg-gray-50 rounded-lg border-b-4 border-gray-300 flex items-center justify-center text-5xl font-black text-gray-800 focus:outline-none"></button>
         </div>
 
-        <div id="winner-message" class="hidden p-4 bg-green-100 text-green-800 rounded-lg border border-green-200">
-            <span id="winner-text" class="font-bold text-lg"></span>
+        <div id="winner-message" class="hidden mt-6 p-4 bg-green-100 text-green-800 rounded-lg border-b-4 border-green-300 animate-bounce-scale">
+            <span id="winner-text" class="font-black text-xl"></span>
         </div>
     </div>
 
     <script>
-        let xState = [0,0,0,0,0,0,0,0,0];
-        let oState = [0,0,0,0,0,0,0,0,0];
-        let turn = 1; // 1 => X, 0 => O
-        let gameOver = false;
+        // --- Audio Engine ---
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
 
-        const wins = [
-            [0,1,2],[3,4,5],[6,7,8],
-            [0,3,6],[1,4,7],[2,5,8],
-            [0,4,8],[2,4,6]
-        ];
+        const playTone = (freq, type, duration, startTime=0, vol=0.1) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + startTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime + startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(audioCtx.currentTime + startTime);
+            osc.stop(audioCtx.currentTime + startTime + duration);
+        };
 
-        function handleClick(index) {
-            if (gameOver) return;
-            if (xState[index] || oState[index]) return;
-
-            const cell = document.getElementById(`cell-${index}`);
-
-            if (turn === 1) {
-                xState[index] = 1;
-                cell.innerText = "X";
-                cell.classList.add("text-blue-600");
-                document.getElementById("status").innerText = "O's Turn";
-                turn = 0;
-            } else {
-                oState[index] = 1;
-                cell.innerText = "O";
-                cell.classList.add("text-red-600");
-                document.getElementById("status").innerText = "X's Turn";
-                turn = 1;
+        const sounds = {
+            click: ()=>{ 
+                if(audioCtx.state==='suspended') audioCtx.resume();
+                playTone(800,'triangle',0.1); 
+            },
+            win: ()=>{ 
+                playTone(523.25,'square',0.1);
+                playTone(659.25,'square',0.1,0.1);
+                playTone(783.99,'square',0.1,0.2);
+            },
+            draw: ()=>{ 
+                playTone(400,'sawtooth',0.6); 
+            },
+            restart: ()=>{ 
+                playTone(100,'sawtooth',0.3); 
+            },
+            gameOver: (msg)=>{ 
+                if(audioCtx.state==='suspended') audioCtx.resume();
+                playTone(150,'sine',0.5);
+                if('speechSynthesis' in window){
+                    const u=new SpeechSynthesisUtterance(msg||"Game Over");
+                    u.pitch=0.8; u.rate=0.9; window.speechSynthesis.speak(u);
+                }
             }
+        };
+
+        // --- Game Logic ---
+        let xState = Array(9).fill(0), zState = Array(9).fill(0), turn=1, gameOver=false;
+        const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+        function handleClick(i){
+            if(gameOver) return;
+            if(xState[i]||zState[i]) return sounds.click();
+
+            const cell=document.getElementById(`cell-${i}`);
+            cell.classList.add('scale-95'); setTimeout(()=>cell.classList.remove('scale-95'),100);
+            sounds.click();
+
+            if(turn===1){ xState[i]=1; cell.innerText="X"; cell.classList.add("text-blue-600"); document.getElementById("status").innerText="O's Turn"; document.getElementById("status").classList.replace("text-player-x","text-player-o"); turn=0; }
+            else { zState[i]=1; cell.innerText="O"; cell.classList.add("text-red-600"); document.getElementById("status").innerText="X's Turn"; document.getElementById("status").classList.replace("text-player-o","text-player-x"); turn=1; }
 
             checkWin();
         }
 
-        function checkWin() {
-            let winner = null;
-
-            for (let w of wins) {
-                if (xState[w[0]] + xState[w[1]] + xState[w[2]] === 3) {
-                    winner = "X";
-                    break;
-                }
-            }
-            if (!winner) {
-                for (let w of wins) {
-                    if (oState[w[0]] + oState[w[1]] + oState[w[2]] === 3) {
-                        winner = "O";
-                        break;
-                    }
-                }
-            }
-
-            if (winner) {
-                endGame(`${winner} Won!`);
-                return;
-            }
-
-            let totalMoves = xState.reduce((a,b)=>a+b,0) + oState.reduce((a,b)=>a+b,0);
-            if (totalMoves === 9) endGame("Draw!");
+        function checkWin(){
+            let winner=null;
+            for(let w of wins){ if(xState[w[0]]+xState[w[1]]+xState[w[2]]===3){ winner="X"; break; } }
+            if(!winner){ for(let w of wins){ if(zState[w[0]]+zState[w[1]]+zState[w[2]]===3){ winner="O"; break; } } }
+            const total=xState.reduce((a,b)=>a+b,0)+zState.reduce((a,b)=>a+b,0);
+            if(winner){ sounds.win(); endGame(`${winner} WINS!`); }
+            else if(total===9){ sounds.draw(); endGame("DRAW GAME!"); }
         }
 
-        function endGame(message) {
-            gameOver = true;
-            document.getElementById("status").innerText = "Game Over";
-            document.getElementById("winner-text").innerText = message;
-            document.getElementById("winner-message").classList.remove("hidden");
+        function endGame(msg){
+            gameOver=true;
+            document.getElementById("status").innerText="GAME OVER";
+            document.getElementById("status").className="text-xl font-bold text-gray-500";
+            const w=document.getElementById("winner-message");
+            document.getElementById("winner-text").innerText=msg; w.classList.remove("hidden");
+            sounds.gameOver(msg);
         }
 
-        function resetGame() {
-            xState = Array(9).fill(0);
-            oState = Array(9).fill(0);
-            turn = 1;
-            gameOver = false;
-            document.getElementById("status").innerText = "X's Turn";
+        function resetGame(){
+            sounds.restart();
+            xState.fill(0); zState.fill(0); turn=1; gameOver=false;
+            document.getElementById("status").innerText="X's Turn"; document.getElementById("status").className="text-xl font-bold text-player-x";
             document.getElementById("winner-message").classList.add("hidden");
-            for (let i=0;i<9;i++){
-                const cell = document.getElementById(`cell-${i}`);
-                cell.innerText = "";
-                cell.classList.remove("text-blue-600","text-red-600");
-            }
+            for(let i=0;i<9;i++){ const cell=document.getElementById(`cell-${i}`); cell.innerText=""; cell.classList.remove("text-blue-600","text-red-600"); cell.style.transform=''; cell.style.borderBottomWidth='4px'; cell.style.marginTop=''; }
         }
     </script>
-
 </body>
 </html>
